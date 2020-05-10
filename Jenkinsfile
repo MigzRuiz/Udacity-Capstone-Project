@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Create EKS Cluster IAM Role') {
+        stage('Creating Kubernetes Cluster') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'aws-static') {
+					sh 'echo "Creating Kubernetes Cluster"'
 					sh '''
 						eksctl create cluster \
 						--name capstonecluster \
