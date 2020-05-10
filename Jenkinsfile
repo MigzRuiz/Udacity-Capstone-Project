@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Creating Kubernetes Cluster') {
 			steps {
-				withAWS(region:'us-west-2', credentials:'aws-static') {
+				withAWS(region:'us-west-2', credentials:'aws-master') {
 					sh 'echo "Creating Kubernetes Cluster"'
 					sh '''
 						eksctl create cluster \
