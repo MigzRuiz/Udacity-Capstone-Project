@@ -1,0 +1,46 @@
+.btn {
+    font-size: $default-font-size;
+    text-transform: uppercase;
+    padding: 1.5rem 4rem;
+    background:none;
+
+    border-radius: .8rem;
+    letter-spacing: .6rem;
+    color: var(--color-grey-light-1);
+
+    border: 1px solid var(--color-grey-light-1);
+    cursor: pointer;
+    position: relative;
+
+    transition:color 0.25s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    transform-origin: right;
+    z-index: 8;
+    overflow: hidden;
+
+    &:hover {
+        color: var(--color-secondary);
+    }
+
+    &::after {
+        content:"";
+        position: absolute;
+        top:0;
+        left:0;
+        width:0;
+        height: 100%;
+        background-image: linear-gradient(to right, var(--color-primary), var(--color-teal));
+        transform-origin: left;
+        transition: width .4s cubic-bezier(0.455, 0.03, 0.515, 0.955);  
+        z-index:-1; 
+    }
+
+    &:hover::after {
+        width:100%;   
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+    }    
+}
+

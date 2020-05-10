@@ -1,0 +1,72 @@
+.header {
+    //Setting header properties//
+    height: 95vh;
+    background-color: var(--color-secondary);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+
+    .navbar {
+        display: flex;
+        justify-content: space-around;
+        padding-top: 3rem;
+
+        .logo {
+            height: 10rem;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &__items {
+                position: relative;
+                padding-left: 1rem;
+
+                &:not(:last-child) {
+                    margin-right: 2.5rem;
+                }
+            }
+
+            &__items::before {
+                content: "";
+                position: absolute;
+                top: 1rem;
+                left: 0;
+                height: 20%;
+                width: 3px;
+        
+                background-color: var(--color-primary);  
+                //background-color: var(--color-secondary-dark);  
+                transform: scaleY(0);
+                //transform-origin: bottom;   
+
+                transition: transform .2s,
+                            width .4s cubic-bezier(1,.02,.13,1.42) .2s;
+                            //.88,.01,0,1.28
+                            //1,.02,.13,1.42
+            }
+
+            &__items:hover::before {
+                transform: scaleY(1);
+                width: 115%;
+            }
+
+            &__link:link,
+            &__link:visited {
+                position: relative;
+                z-index: 10;
+                transition: all .2s;
+            }
+
+            &__link:hover {
+                transform: translateY(-.2rem);
+            }
+        }
+    }
+
+    &__textbox {
+        margin-left: 20%;
+        margin-top: 10%;
+        height: 40rem;
+    }
+}
