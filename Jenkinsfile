@@ -7,7 +7,7 @@ pipeline {
 					sh 'echo "Creating Kubernetes Cluster"'
 					sh '''
 						eksctl create cluster \
-						--name capstoneCluster \
+						--name capstone \
 						--nodegroup-name standard-workers \
 						--node-type t2.micro \
 						--nodes 2 \
@@ -22,5 +22,15 @@ pipeline {
 				}
 			}
 		}
+		stage('Create CONF file for the cluster') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'ecr_credentials') {
+					sh '''
+						aws eks --region us-west-2 update-kubeconfig --name capstone
+					'''
+				}
+			}
+		}
     }
 }
+
