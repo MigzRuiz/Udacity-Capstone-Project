@@ -3,11 +3,6 @@ pipeline {
 
     agent any
     stages {
-		stage('Initialize'){
-        	def dockerHome = tool 'myDocker'
-        	def mavenHome  = tool 'myMaven'
-        	env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
-   		}
 
 		stage('Lint HTML') {
 			steps {
@@ -15,13 +10,15 @@ pipeline {
 			}
 		}
 		
-		stage('Push to Docker Registry'){
-        	withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            		sh '''
+		stage('Build Docker Image') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
 						docker build -t migzruiz/capstone .
 					'''
-        	}
-    	}
+				}
+			}
+		}
 
 		stage('Push Docker Image to Docker Hub') {
       		steps{
