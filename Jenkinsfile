@@ -1,7 +1,12 @@
 pipeline {
     agent any
     stages {
-        stage('Creating Kubernetes Cluster') {
+        stage('Lint HTML') {
+			steps {
+				sh 'tidy -q -e *.html'
+			}
+		}
+		stage('Creating Kubernetes Cluster') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'aws-master') {
 					sh 'echo "Creating Kubernetes Cluster"'
