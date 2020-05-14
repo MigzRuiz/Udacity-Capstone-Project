@@ -21,7 +21,7 @@ pipeline {
 				script {
 					dockerImage = docker.build registry + semicolon + tag
 				}
-				sh 'docker image ls -a'
+				sh 'sudo docker image ls -a'
 			}
     	}
 
