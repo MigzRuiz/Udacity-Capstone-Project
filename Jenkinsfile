@@ -10,6 +10,12 @@ pipeline {
 
     agent any
     stages {
+		stage('Initialize'){
+        	def dockerHome = tool 'myDocker'
+        	def mavenHome  = tool 'myMaven'
+        	env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
+   		}
+		   
 		stage('Lint HTML') {
 			steps {
 				sh 'tidy -q -e capstone/*.html'
