@@ -10,7 +10,7 @@ pipeline {
 		stage('Build Docker Image') {
 			steps {
 				sh '''
-					docker build --tag=migzruiz/capstone .
+					docker build -t migzruiz/capstone .
 				'''
 			}
 		}
