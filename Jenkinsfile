@@ -8,7 +8,9 @@ pipeline {
 		}
         stage('Install Docker') {
             steps {
-                sh 'sudo snap install docker'
+                sh '''
+                    sudo snap install docker
+                '''
             }
         }
 		stage('Build Docker Image') {
