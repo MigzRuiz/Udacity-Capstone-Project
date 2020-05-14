@@ -1,6 +1,4 @@
 pipeline {
-	  
-
     agent any
     stages {
 
@@ -14,7 +12,7 @@ pipeline {
 			steps {
 				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
 					sh '''
-						docker build -t migzruiz/capstone .
+						sudo docker build -t migzruiz/capstone .
 					'''
 				}
 			}
