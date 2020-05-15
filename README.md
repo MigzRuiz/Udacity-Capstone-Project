@@ -6,4 +6,4 @@ Steps:
    * Installed python-pip (sudo apt install python-pip) on the Jenkins server
    * Installed aws cli on the Jenkins server
    * Added my credentials on the Jenkins server
-   * 
+* Create a pipeline to deploy docker
