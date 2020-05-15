@@ -7,24 +7,34 @@ pipeline {
 				sh 'tidy -q -e capstone/*.html'
 			}
 		}
-		
-		stage('Build Docker Image') {
+
+		stage('Creating Kubernetes Cluster') {
 			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+				withAWS(region:'us-west-2', credentials:'aws-master') {
+					sh 'echo "Creating Kubernetes Cluster"'
 					sh '''
-						docker build -t migzruiz/capstone .
+						eksctl create cluster \
+						--name capstone \
+						--nodegroup-name standard-workers \
+						--node-type t2.micro \
+						--nodes 2 \
+						--nodes-min 1 \
+						--nodes-max 3 \
+						--node-ami auto \
+						--region us-west-2 \
+						--zones us-west-2a \
+						--zones us-west-2b \
+						--zones us-west-2c \
 					'''
 				}
 			}
 		}
-
-		stage('Push Image To Dockerhub') {
+		stage('Create CONF file for the cluster') {
 			steps {
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
-					sh '''
-						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-						docker push migzruiz/capstone
-					'''
+				withAWS(region:'us-west-2', credentials:'aws-master') {
+					sh 'pip3 install --upgrade --user awscli'
+					sh 'aws --version'
+					sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
 				}
 			}
 		}
