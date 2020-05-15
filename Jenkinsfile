@@ -18,15 +18,16 @@ pipeline {
 			}
 		}
 
-		stage('Push Docker Image to Docker Hub') {
-      		steps{
-				script {
-					docker.withRegistry( '', registryCredential ) {
-						dockerImage.push()
-					}
+		stage('Push Image To Dockerhub') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker push migzruiz/capstone
+					'''
 				}
-      		}
-    	}
+			}
+		}
 
     }
 }
